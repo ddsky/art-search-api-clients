@@ -1,0 +1,14 @@
+{
+    "artifactId": "io.artsearch",
+    "artifactUrl": "https://artsearch.io/sdks/",
+    "dateLibrary": "java8",
+    "artifactDescription": "Java Client for the Art Search API",
+    "developerName": "David Urbansky",
+	"developerEmail": "mail@artsearch.io",
+	"developerOrganization": "dsky",
+	"developerOrganizationUrl": "https://artsearch.io",
+	"licenseName": "Art Search API license",
+	"licenseUrl": "https://artsearch.io/terms/",
+	"java8": true
+}
+

@@ -1,0 +1,18 @@
+{application, artsearch,
+ [{description, "Art Search let&#39;s you search and discover over one million pieces of historic art."},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {applications,
+    [kernel,
+     stdlib,
+     ssl,
+     hackney,
+     ctx
+    ]},
+  {env, [{host, "api.artsearch.io"}]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, []},
+  {links, []}
+]}.

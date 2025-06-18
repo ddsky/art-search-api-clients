@@ -1,0 +1,6 @@
+pub mod retrieve_artwork_by_id_200_response;
+pub use self::retrieve_artwork_by_id_200_response::RetrieveArtworkById200Response;
+pub mod search_artworks_200_response;
+pub use self::search_artworks_200_response::SearchArtworks200Response;
+pub mod search_artworks_200_response_artworks_inner;
+pub use self::search_artworks_200_response_artworks_inner::SearchArtworks200ResponseArtworksInner;

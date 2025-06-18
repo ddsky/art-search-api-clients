@@ -1,0 +1,9 @@
+.gitignore
+.openapi-generator-ignore
+git_push.sh
+project.clj
+src/art_search_api/api/art.clj
+src/art_search_api/core.clj
+src/art_search_api/specs/retrieve_artwork_by_id_200_response.clj
+src/art_search_api/specs/search_artworks_200_response.clj
+src/art_search_api/specs/search_artworks_200_response_artworks_inner.clj

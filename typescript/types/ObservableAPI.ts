@@ -1,0 +1,146 @@
+import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
+import { Configuration} from '../configuration'
+import { Observable, of, from } from '../rxjsStub';
+import {mergeMap, map} from  '../rxjsStub';
+import { RetrieveArtworkById200Response } from '../models/RetrieveArtworkById200Response';
+import { SearchArtworks200Response } from '../models/SearchArtworks200Response';
+import { SearchArtworks200ResponseArtworksInner } from '../models/SearchArtworks200ResponseArtworksInner';
+
+import { ArtApiRequestFactory, ArtApiResponseProcessor} from "../apis/ArtApi";
+export class ObservableArtApi {
+    private requestFactory: ArtApiRequestFactory;
+    private responseProcessor: ArtApiResponseProcessor;
+    private configuration: Configuration;
+
+    public constructor(
+        configuration: Configuration,
+        requestFactory?: ArtApiRequestFactory,
+        responseProcessor?: ArtApiResponseProcessor
+    ) {
+        this.configuration = configuration;
+        this.requestFactory = requestFactory || new ArtApiRequestFactory(configuration);
+        this.responseProcessor = responseProcessor || new ArtApiResponseProcessor();
+    }
+
+    /**
+     * Get one random artwork from our vast collection. The API returns comprehensive details including the title, high-quality image URL, creation date range, and a rich description providing historical and artistic context.
+     * Random Artwork
+     */
+    public randomArtworkWithHttpInfo(_options?: Configuration): Observable<HttpInfo<RetrieveArtworkById200Response>> {
+        const requestContextPromise = this.requestFactory.randomArtwork(_options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (let middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (let middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.randomArtworkWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get one random artwork from our vast collection. The API returns comprehensive details including the title, high-quality image URL, creation date range, and a rich description providing historical and artistic context.
+     * Random Artwork
+     */
+    public randomArtwork(_options?: Configuration): Observable<RetrieveArtworkById200Response> {
+        return this.randomArtworkWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<RetrieveArtworkById200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Get one artwork by its id. The API returns the title, image URL, start and end date, and a description of the artwork.
+     * Retrieve Artwork by Id
+     * @param id The id of the artwork.
+     */
+    public retrieveArtworkByIdWithHttpInfo(id: number, _options?: Configuration): Observable<HttpInfo<RetrieveArtworkById200Response>> {
+        const requestContextPromise = this.requestFactory.retrieveArtworkById(id, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (let middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (let middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.retrieveArtworkByIdWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get one artwork by its id. The API returns the title, image URL, start and end date, and a description of the artwork.
+     * Retrieve Artwork by Id
+     * @param id The id of the artwork.
+     */
+    public retrieveArtworkById(id: number, _options?: Configuration): Observable<RetrieveArtworkById200Response> {
+        return this.retrieveArtworkByIdWithHttpInfo(id, _options).pipe(map((apiResponse: HttpInfo<RetrieveArtworkById200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Search and filter artworks by query, creation time, material, technique, and origin. The natural language search uses semantic AI to understand the context of your query, so you can search for artworks by their style, subject, or even emotions they evoke. The API returns a list of artworks matching the given criteria.
+     * Search Artworks
+     * @param query The search query.
+     * @param earliestStartDate The artwork must have been created after this date.
+     * @param latestStartDate The artwork must have been created before this date.
+     * @param earliestEndDate For artworks with a period of creation, the completion date must be after this date.
+     * @param latestEndDate For artworks with a period of creation, the completion date must be before this date.
+     * @param minRatio The minimum aspect ratio (width/height) the artwork image must have.
+     * @param maxRatio The maximum aspect ratio (width/height) the artwork image must have.
+     * @param type The artwork type. Possible values are tapestry, collotype, collage, printmaking, cutting, digital_art, sculpture, metalwork, fragment, token, embroidery, painting, jewellery, print, ornament, photograph, statuette, furniture, needlework, drawing, miniature, tile, stereograph, calligraphy.
+     * @param material The art material used. Possible values are ferrous_lactate, ink, textile, metal, bronze, canvas, stone, reduced_iron, horn, stoneware, in_shell_walnuts, chalk, velvet, silver, charcoal, gold_leaf, candied_walnuts, porcelain, walnut_halves, jade, cotton, paint, ferrous_fumarate, graphite, cobalt, sandstone, plastic, walnut_pieces, clay, walnuts, cupric_sulfate, ivory, ferric_orthophosphate, earthenware, tin, pen, linen, mahogany, electrolytic_iron, silk, crayon, black_walnuts, brush, beech_wood, terracotta, glass, lead, brass, oil_paint, pencil, leather, gold, marble, watercolor, diamond, iron, ferrous_sulfate, walnut_halves_and_pieces, gouache, wool, ceramic, parchment, cork, limestone, copper_gluconate, paper, pastel, copper, cardboard, plant_material, oak, wood.
+     * @param technique The art technique used. Possible values are engraving, grinding, embroidering, etching, vitrification, gilding, lithography, knitting, cyanotype, silkscreen, woodcut, printing, drypoint, photolithography, weaving, sawing, casting, glassblowing, block_printing, photographing, forging.
+     * @param origin The country or region of origin for the artwork
+     * @param offset The number of artworks to skip in range [0,1000]
+     * @param number The number of artworks to return in range [1,10]
+     */
+    public searchArtworksWithHttpInfo(query?: string, earliestStartDate?: number, latestStartDate?: number, earliestEndDate?: number, latestEndDate?: number, minRatio?: number, maxRatio?: number, type?: string, material?: string, technique?: string, origin?: string, offset?: number, number?: number, _options?: Configuration): Observable<HttpInfo<SearchArtworks200Response>> {
+        const requestContextPromise = this.requestFactory.searchArtworks(query, earliestStartDate, latestStartDate, earliestEndDate, latestEndDate, minRatio, maxRatio, type, material, technique, origin, offset, number, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (let middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (let middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.searchArtworksWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Search and filter artworks by query, creation time, material, technique, and origin. The natural language search uses semantic AI to understand the context of your query, so you can search for artworks by their style, subject, or even emotions they evoke. The API returns a list of artworks matching the given criteria.
+     * Search Artworks
+     * @param query The search query.
+     * @param earliestStartDate The artwork must have been created after this date.
+     * @param latestStartDate The artwork must have been created before this date.
+     * @param earliestEndDate For artworks with a period of creation, the completion date must be after this date.
+     * @param latestEndDate For artworks with a period of creation, the completion date must be before this date.
+     * @param minRatio The minimum aspect ratio (width/height) the artwork image must have.
+     * @param maxRatio The maximum aspect ratio (width/height) the artwork image must have.
+     * @param type The artwork type. Possible values are tapestry, collotype, collage, printmaking, cutting, digital_art, sculpture, metalwork, fragment, token, embroidery, painting, jewellery, print, ornament, photograph, statuette, furniture, needlework, drawing, miniature, tile, stereograph, calligraphy.
+     * @param material The art material used. Possible values are ferrous_lactate, ink, textile, metal, bronze, canvas, stone, reduced_iron, horn, stoneware, in_shell_walnuts, chalk, velvet, silver, charcoal, gold_leaf, candied_walnuts, porcelain, walnut_halves, jade, cotton, paint, ferrous_fumarate, graphite, cobalt, sandstone, plastic, walnut_pieces, clay, walnuts, cupric_sulfate, ivory, ferric_orthophosphate, earthenware, tin, pen, linen, mahogany, electrolytic_iron, silk, crayon, black_walnuts, brush, beech_wood, terracotta, glass, lead, brass, oil_paint, pencil, leather, gold, marble, watercolor, diamond, iron, ferrous_sulfate, walnut_halves_and_pieces, gouache, wool, ceramic, parchment, cork, limestone, copper_gluconate, paper, pastel, copper, cardboard, plant_material, oak, wood.
+     * @param technique The art technique used. Possible values are engraving, grinding, embroidering, etching, vitrification, gilding, lithography, knitting, cyanotype, silkscreen, woodcut, printing, drypoint, photolithography, weaving, sawing, casting, glassblowing, block_printing, photographing, forging.
+     * @param origin The country or region of origin for the artwork
+     * @param offset The number of artworks to skip in range [0,1000]
+     * @param number The number of artworks to return in range [1,10]
+     */
+    public searchArtworks(query?: string, earliestStartDate?: number, latestStartDate?: number, earliestEndDate?: number, latestEndDate?: number, minRatio?: number, maxRatio?: number, type?: string, material?: string, technique?: string, origin?: string, offset?: number, number?: number, _options?: Configuration): Observable<SearchArtworks200Response> {
+        return this.searchArtworksWithHttpInfo(query, earliestStartDate, latestStartDate, earliestEndDate, latestEndDate, minRatio, maxRatio, type, material, technique, origin, offset, number, _options).pipe(map((apiResponse: HttpInfo<SearchArtworks200Response>) => apiResponse.data));
+    }
+
+}

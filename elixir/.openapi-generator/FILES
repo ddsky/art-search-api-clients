@@ -1,0 +1,15 @@
+.formatter.exs
+.gitignore
+.openapi-generator-ignore
+README.md
+config/config.exs
+config/runtime.exs
+lib/art_search_api/api/art.ex
+lib/art_search_api/connection.ex
+lib/art_search_api/deserializer.ex
+lib/art_search_api/model/retrieve_artwork_by_id_200_response.ex
+lib/art_search_api/model/search_artworks_200_response.ex
+lib/art_search_api/model/search_artworks_200_response_artworks_inner.ex
+lib/art_search_api/request_builder.ex
+mix.exs
+test/test_helper.exs

@@ -1,0 +1,12 @@
+.gitignore
+.openapi-generator-ignore
+artsearch-1.0.0.rockspec
+artsearch/api/art_api.lua
+artsearch/model/retrieve_artwork_by_id_200_response.lua
+artsearch/model/search_artworks_200_response.lua
+artsearch/model/search_artworks_200_response_artworks_inner.lua
+git_push.sh
+spec/art_api_spec.lua
+spec/retrieve_artwork_by_id_200_response_spec.lua
+spec/search_artworks_200_response_artworks_inner_spec.lua
+spec/search_artworks_200_response_spec.lua

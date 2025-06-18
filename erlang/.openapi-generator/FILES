@@ -1,0 +1,9 @@
+.openapi-generator-ignore
+README.md
+rebar.config
+src/artsearch.app.src
+src/artsearch_art_api.erl
+src/artsearch_retrieve_artwork_by_id_200_response.erl
+src/artsearch_search_artworks_200_response.erl
+src/artsearch_search_artworks_200_response_artworks_inner.erl
+src/artsearch_utils.erl
