@@ -235,7 +235,7 @@
             "description": "The art technique used. Possible values are engraving, grinding, embroidering, etching, vitrification, gilding, lithography, knitting, cyanotype, silkscreen, woodcut, printing, drypoint, photolithography, weaving, sawing, casting, glassblowing, block_printing, photographing, forging.",
             "schema": {
               "pattern": ".",
-              "maxLength": 13,
+              "maxLength": 1000,
               "type": "string",
               "example": "etching"
             },

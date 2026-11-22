@@ -233,8 +233,8 @@ module OpenapiClient
         fail ArgumentError, "invalid value for 'opts[:\"material\"]' when calling ArtApi.search_artworks, must conform to the pattern #{pattern}."
       end
 
-      if @api_client.config.client_side_validation && !opts[:'technique'].nil? && opts[:'technique'].to_s.length > 13
-        fail ArgumentError, 'invalid value for "opts[:"technique"]" when calling ArtApi.search_artworks, the character length must be smaller than or equal to 13.'
+      if @api_client.config.client_side_validation && !opts[:'technique'].nil? && opts[:'technique'].to_s.length > 1000
+        fail ArgumentError, 'invalid value for "opts[:"technique"]" when calling ArtApi.search_artworks, the character length must be smaller than or equal to 1000.'
       end
 
       pattern = Regexp.new(/./)
