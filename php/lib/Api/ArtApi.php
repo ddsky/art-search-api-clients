@@ -1075,8 +1075,8 @@ class ArtApi
             throw new \InvalidArgumentException("invalid value for \"material\" when calling ArtApi.searchArtworks, must conform to the pattern /./.");
         }
         
-        if ($technique !== null && strlen($technique) > 13) {
-            throw new \InvalidArgumentException('invalid length for "$technique" when calling ArtApi.searchArtworks, must be smaller than or equal to 13.');
+        if ($technique !== null && strlen($technique) > 1000) {
+            throw new \InvalidArgumentException('invalid length for "$technique" when calling ArtApi.searchArtworks, must be smaller than or equal to 1000.');
         }
         if ($technique !== null && !preg_match("/./", $technique)) {
             throw new \InvalidArgumentException("invalid value for \"technique\" when calling ArtApi.searchArtworks, must conform to the pattern /./.");

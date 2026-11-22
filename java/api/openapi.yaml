@@ -152,7 +152,7 @@ paths:
         required: false
         schema:
           example: etching
-          maxLength: 13
+          maxLength: 1000
           pattern: "."
           type: string
         style: form
